@@ -51,6 +51,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
+        System.out.println();
         if (choice >= 1 && choice <= 5) {
             return choice;
         } else {
@@ -65,17 +66,14 @@ public class Main {
     public static boolean processChoice(int choice, ArrayList<Employee> staff) {
         if (choice == 1) {
             displayAllEmployees(staff);
-        }
-        if (choice == 2) {
+        } else if (choice == 2) {
             addNewEmployee(staff);
-        }
-        if (choice == 3) {
+        } else if (choice == 3) {
             editEmployee(staff);
-        }
-        if (choice == 4) {
+        } else if (choice == 4) {
             removeEmployee(staff);
-        }
-        if (choice == 5) {
+        } else if (choice == 5) {
+            System.out.println("Exiting...");
             return false;
         }
         return true;
@@ -83,20 +81,35 @@ public class Main {
 
     public static void displayAllEmployees(ArrayList<Employee> staff) {
         System.out.println("===== Staff List Summary =====");
+        System.out.println();
+        if (staff.isEmpty()) {
+            System.out.println("There is no employee record to display.");
+            return;
+        }
+
         for (Employee e : staff) {
             System.out.println(e.report());
         }
+
+//        String strHeader = "Employee ID\t\tEmployee Name\t\tJob Designation\t\tType of Employee\tNett Monthly Salary";
+//        System.out.println(strHeader);
+//        for (Employee e : staff) {
+//            System.out.println(e.formattedReport());
+//        }
     }
 
     public static void addNewEmployee(ArrayList<Employee> staff) {
         System.out.println("===== Add New Employee =====");
-        Scanner sc = new Scanner(System.in);
-
+        System.out.println();
         System.out.println("Enter employee type to create: ");
         System.out.println("F for full-time or P for part-time");
 
+        Scanner sc = new Scanner(System.in);
         String employeeType = sc.nextLine();
+
         while (!employeeType.equalsIgnoreCase("F") && !employeeType.equalsIgnoreCase("P")) {
+            System.out.println("Invalid employee type. Please try again.");
+            System.out.println();
             System.out.println("Enter employee type to create: ");
             System.out.println("F for full-time or P for part-time");
             employeeType = sc.nextLine();
@@ -139,15 +152,20 @@ public class Main {
 
     public static void editEmployee(ArrayList<Employee> staff) {
         System.out.println("===== Edit Existing Employee =====");
+        System.out.println();
+        if (staff.isEmpty()) {
+            System.out.println("There is no employee record to edit.");
+            return;
+        }
 
         // 1. ask the user to select which employee to edit
         for (int i = 0; i < staff.size(); i++) {
-            System.out.println(i + ": " + staff.get(i).getNameOfEmployee());
+            System.out.println(i + 1 + ": " + staff.get(i).getNameOfEmployee());
         }
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter index to edit: ");
-        int staffIndex = sc.nextInt();
+        int staffIndex = sc.nextInt() - 1;
 
         // 2. base on the selection, we will ask the questions for
         // the new values for the employee
@@ -158,20 +176,26 @@ public class Main {
 
     public static void removeEmployee(ArrayList<Employee> staff) {
         System.out.println("===== Remove Employee Record =====");
+        System.out.println();
+        if (staff.isEmpty()) {
+            System.out.println("There is no employee record to delete.");
+            return;
+        }
 
         // 1. ask the user to select which employee to remove
         for (int i = 0; i < staff.size(); i++) {
-            System.out.println(i + ": " + staff.get(i).getNameOfEmployee());
+            System.out.println(i + 1 + ": " + staff.get(i).getNameOfEmployee());
         }
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter index to delete: ");
-        int employeeIndex = sc.nextInt();
+        int employeeIndex = sc.nextInt() - 1;
 
         // 2. base on the selection, we will delete
         // the record for the employee
-        Employee employeeToRemove = staff.get(employeeIndex);
+        Employee employeeToRemove = staff.remove(employeeIndex) ;
         //employeeToRemove.delete();
-
+        System.out.println("Employee record deleted.");
+        displayAllEmployees(staff);
     }
 }

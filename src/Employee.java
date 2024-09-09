@@ -6,6 +6,7 @@ public abstract class Employee {
     protected String nameOfEmployee;
     protected String employeeDesignation;
     public abstract double calculateMonthlySalary();
+    public abstract String employeeCategory();
 
     //Default Constructor
     public Employee() {
@@ -44,6 +45,11 @@ public abstract class Employee {
 
     public void setEmployeeDesignation(String employeeDesignation) {
         this.employeeDesignation = employeeDesignation;
+    }
+
+    public String formattedReport() {
+//        return String.format("Employee ID: %d \tEmployee Name: %s \tJob Designation: %s", employeeID, nameOfEmployee, employeeDesignation);
+        return String.format("%d\t\t%-12s%-20s", employeeID, nameOfEmployee, employeeDesignation);
     }
 
     public String report() {

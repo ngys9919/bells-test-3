@@ -28,8 +28,20 @@ class FullTimeEmployee extends Employee {
     }
 
     @Override
+    public String employeeCategory() {
+        return ("Full-Time");
+    }
+
+    @Override
     public double calculateMonthlySalary() {
         return (0.8 * baseMonthlySalary);
+    }
+
+    @Override
+    public String formattedReport() {
+        String str = super.formattedReport();
+//        return String.format(str + "\tType of Employee: %s \tNett Monthly Salary: $%.2f", employeeCategory(), calculateMonthlySalary());
+        return String.format(str + "\t%17s \t\t\t$%.2f", employeeCategory(), calculateMonthlySalary());
     }
 
     @Override
@@ -37,8 +49,8 @@ class FullTimeEmployee extends Employee {
         // super refers to the parent class
         // hence super.report() means call the `report` method in parent class
         return super.report() +
-                "Type of Employee: " + employeeCategory + "\n"  +
-                "Monthly Salary: " + "$" + calculateMonthlySalary() + "\n";
+                "Type of Employee: " + employeeCategory() + "\n"  +
+                "Nett Monthly Salary: " + "$" + calculateMonthlySalary() + "\n";
     }
 
     @Override
@@ -46,7 +58,7 @@ class FullTimeEmployee extends Employee {
         super.edit();
 
         System.out.println();
-        System.out.print("Type of Employee: " + employeeCategory);
+        System.out.println("Type of Employee: " + employeeCategory());
 
         Scanner sc = new Scanner(System.in);
         System.out.print("Enter basic monthly salary: ");
