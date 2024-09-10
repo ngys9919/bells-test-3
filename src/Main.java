@@ -98,9 +98,11 @@ public class Main {
             return;
         }
 
-//        for (Employee e : staffList) {
-//            System.out.println(e.report());
-//        }
+        if (false) {
+            for (Employee e : staffList) {
+                System.out.println(e.report());
+            }
+        }
 
         if (!staffList.isEmpty()) {
             String strHeader = "Employee Records for Full-time/Part-time Staff";

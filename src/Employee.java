@@ -48,7 +48,6 @@ public abstract class Employee implements PayablePerson {
     }
 
     public String formattedReport() {
-//        return String.format("Employee ID: %d \tEmployee Name: %s \tJob Designation: %s", employeeID, nameOfEmployee, employeeDesignation);
         return String.format("%11d\t%-13s\t%-15s", employeeID, nameOfEmployee, employeeDesignation);
     }
 
@@ -61,15 +60,15 @@ public abstract class Employee implements PayablePerson {
     public void edit() {
         Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter ID of the new employee: ");
+        System.out.print("Enter new ID of the employee: ");
         int newID = sc.nextInt();
         sc.nextLine(); // consume the buffered new line
         this.employeeID = newID;
 
-        System.out.print("Enter name of the new employee: ");
+        System.out.print("Enter new name of the employee: ");
         this.nameOfEmployee = sc.nextLine();
 
-        System.out.print("Enter job title of the new employee: ");
+        System.out.print("Enter new job title of the employee: ");
         this.employeeDesignation = sc.nextLine();
     }
 }
