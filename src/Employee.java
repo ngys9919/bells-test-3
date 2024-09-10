@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public abstract class Employee implements PayableStaff {
+public abstract class Employee implements PayablePerson {
 //public abstract class Employee {
     protected int employeeID;
     protected String nameOfEmployee;
@@ -10,7 +10,7 @@ public abstract class Employee implements PayableStaff {
 
     //Default Constructor
     public Employee() {
-        employeeID = 0;
+        employeeID = 9999;
         nameOfEmployee = "N/A";
         employeeDesignation = "N/A";
     }
