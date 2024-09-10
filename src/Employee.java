@@ -1,7 +1,7 @@
 import java.util.Scanner;
 
-//public abstract class Employee implements PayableStaff {
-public abstract class Employee {
+public abstract class Employee implements PayableStaff {
+//public abstract class Employee {
     protected int employeeID;
     protected String nameOfEmployee;
     protected String employeeDesignation;
@@ -49,7 +49,7 @@ public abstract class Employee {
 
     public String formattedReport() {
 //        return String.format("Employee ID: %d \tEmployee Name: %s \tJob Designation: %s", employeeID, nameOfEmployee, employeeDesignation);
-        return String.format("%d\t\t%-12s%-20s", employeeID, nameOfEmployee, employeeDesignation);
+        return String.format("%11d\t%-13s\t%-15s", employeeID, nameOfEmployee, employeeDesignation);
     }
 
     public String report() {

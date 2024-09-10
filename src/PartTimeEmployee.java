@@ -49,7 +49,7 @@ class PartTimeEmployee extends Employee {
     public String formattedReport() {
         String str = super.formattedReport();
 //        return String.format(str + "\tType of Employee: %s \tNett Monthly Salary: $%.2f", employeeCategory(), calculateMonthlySalary());
-        return String.format(str + "\t%17s \t\t\t$%.2f", employeeCategory(), calculateMonthlySalary());
+        return String.format(str + "\t%13s\t$%.2f", employeeCategory(), calculateMonthlySalary());
     }
 
     @Override
@@ -69,11 +69,11 @@ class PartTimeEmployee extends Employee {
         System.out.println("Type of Employee: " + employeeCategory());
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of hours worked: ");
+        System.out.print("Enter new number of hours worked: ");
         int newHours = sc.nextInt();
         this.numberOfHoursWorked = newHours;
 
-        System.out.print("Enter basic hourly rate: ");
+        System.out.print("Enter new basic hourly rate: ");
         double newRate = sc.nextDouble();
         this.baseHourlyRate = newRate;
     }

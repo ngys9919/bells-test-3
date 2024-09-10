@@ -17,17 +17,19 @@
 // -- PartTimeEmployee class: represents the child of part-time employees
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
 
-        ArrayList<Employee> staff = new ArrayList<>();
+        ArrayList<Employee> staffList = new ArrayList<>();
+        ArrayList<ContractEmployee> contractList = new ArrayList<>();
 
         while (true) {
             displayMenu();
             int choice = getMenuChoice();
-            boolean keepRunning = processChoice(choice, staff);
+            boolean keepRunning = processChoice(choice, staffList, contractList);
             if (!keepRunning) {
                 break;
             }
@@ -42,7 +44,8 @@ public class Main {
         System.out.println("2. Add new employee"); // Create
         System.out.println("3. Edit existing employee"); // Update
         System.out.println("4. Remove employee record"); // Delete
-        System.out.println("5. Quit");
+        System.out.println("5. Display monthly salary");
+        System.out.println("6. Quit");
         System.out.println();
     }
 
@@ -52,7 +55,7 @@ public class Main {
         System.out.print("Enter your choice: ");
         int choice = sc.nextInt();
         System.out.println();
-        if (choice >= 1 && choice <= 5) {
+        if (choice >= 1 && choice <= 6) {
             return choice;
         } else {
             System.out.println("Invalid choice. Please try again.");
@@ -63,42 +66,44 @@ public class Main {
     // depending on the user has entered at the menu, do something
     // if return true, keep running the program
     // if return false, quit the program
-    public static boolean processChoice(int choice, ArrayList<Employee> staff) {
+    public static boolean processChoice(int choice, ArrayList<Employee> staffList, ArrayList<ContractEmployee> contractList) {
         if (choice == 1) {
-            displayAllEmployees(staff);
+            displayAllEmployees(staffList);
         } else if (choice == 2) {
-            addNewEmployee(staff);
+            addNewEmployee(staffList);
         } else if (choice == 3) {
-            editEmployee(staff);
+            editEmployee(staffList);
         } else if (choice == 4) {
-            removeEmployee(staff);
+            removeEmployee(staffList);
         } else if (choice == 5) {
+            displaySalaryItems(staffList, contractList);
+        } else if (choice == 6) {
             System.out.println("Exiting...");
             return false;
         }
         return true;
     }
 
-    public static void displayAllEmployees(ArrayList<Employee> staff) {
+    public static void displayAllEmployees(ArrayList<Employee> staffList) {
         System.out.println("===== Staff List Summary =====");
         System.out.println();
-        if (staff.isEmpty()) {
+        if (staffList.isEmpty()) {
             System.out.println("There is no employee record to display.");
             return;
         }
 
-        for (Employee e : staff) {
-            System.out.println(e.report());
-        }
-
-//        String strHeader = "Employee ID\t\tEmployee Name\t\tJob Designation\t\tType of Employee\tNett Monthly Salary";
-//        System.out.println(strHeader);
-//        for (Employee e : staff) {
-//            System.out.println(e.formattedReport());
+//        for (Employee e : staffList) {
+//            System.out.println(e.report());
 //        }
+
+        String strHeader = "Employee ID\tEmployee Name\tJob Designation\tEmployee Type\tNett Monthly Salary";
+        System.out.println(strHeader);
+        for (Employee e : staffList) {
+            System.out.println(e.formattedReport());
+        }
     }
 
-    public static void addNewEmployee(ArrayList<Employee> staff) {
+    public static void addNewEmployee(ArrayList<Employee> staffList) {
         System.out.println("===== Add New Employee =====");
         System.out.println();
         System.out.println("Enter employee type to create: ");
@@ -146,21 +151,22 @@ public class Main {
             newEmployee = new PartTimeEmployee(employeeID, nameOfEmployee, employeeDesignation, numberOfHoursWorked, baseHourlyRate);
 
         }
-        staff.add(newEmployee);
+        staffList.add(newEmployee);
+        System.out.println("New employee successfully added!");
     }
 
 
-    public static void editEmployee(ArrayList<Employee> staff) {
+    public static void editEmployee(ArrayList<Employee> staffList) {
         System.out.println("===== Edit Existing Employee =====");
         System.out.println();
-        if (staff.isEmpty()) {
+        if (staffList.isEmpty()) {
             System.out.println("There is no employee record to edit.");
             return;
         }
 
         // 1. ask the user to select which employee to edit
-        for (int i = 0; i < staff.size(); i++) {
-            System.out.println(i + 1 + ": " + staff.get(i).getNameOfEmployee());
+        for (int i = 0; i < staffList.size(); i++) {
+            System.out.println("index " + (i + 1) + ": " + staffList.get(i).getNameOfEmployee());
         }
 
         Scanner sc = new Scanner(System.in);
@@ -169,22 +175,23 @@ public class Main {
 
         // 2. base on the selection, we will ask the questions for
         // the new values for the employee
-        Employee staffToEdit = staff.get(staffIndex);
+        Employee staffToEdit = staffList.get(staffIndex);
         staffToEdit.edit();
 
+        System.out.println("Employee successfully edited!");
     }
 
-    public static void removeEmployee(ArrayList<Employee> staff) {
+    public static void removeEmployee(ArrayList<Employee> staffList) {
         System.out.println("===== Remove Employee Record =====");
         System.out.println();
-        if (staff.isEmpty()) {
+        if (staffList.isEmpty()) {
             System.out.println("There is no employee record to delete.");
             return;
         }
 
         // 1. ask the user to select which employee to remove
-        for (int i = 0; i < staff.size(); i++) {
-            System.out.println(i + 1 + ": " + staff.get(i).getNameOfEmployee());
+        for (int i = 0; i < staffList.size(); i++) {
+            System.out.println("index " + (i + 1) + ": " + staffList.get(i).getNameOfEmployee());
         }
 
         Scanner sc = new Scanner(System.in);
@@ -193,9 +200,53 @@ public class Main {
 
         // 2. base on the selection, we will delete
         // the record for the employee
-        Employee employeeToRemove = staff.remove(employeeIndex) ;
+        Employee employeeToRemove = staffList.remove(employeeIndex) ;
         //employeeToRemove.delete();
-        System.out.println("Employee record deleted.");
-        displayAllEmployees(staff);
+        System.out.println("Employee successfully deleted!");
+        displayAllEmployees(staffList);
+    }
+
+    private static void addNewContractEmployee(ArrayList<ContractEmployee> contractList) {
+        // create a placeholder and set it to empty
+        ContractEmployee newContractEmployee = null;
+
+        System.out.println("Type of Employee: Contract");
+
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter basic monthly salary: ");
+        double basicMonthlySalary = sc.nextDouble();
+        System.out.println("Enter contractual period: ");
+        int durationOfContract = sc.nextInt();
+
+        newContractEmployee = new ContractEmployee(basicMonthlySalary, durationOfContract);
+        contractList.add(newContractEmployee);
+
+        System.out.println("Contract employee successfully added!");
+    }
+
+    private static void displaySalaryItems(ArrayList<Employee> staffList, ArrayList<ContractEmployee> contractList) {
+        ArrayList<PayableStaff> salaryItems = new ArrayList<>();
+
+        // Add all Employee instances to the salaryItems list
+        for (Employee e : staffList) {
+            salaryItems.add(e);
+        }
+
+        // Add all ContractEmployee instances to the salaryItems list
+        for (ContractEmployee c : contractList) {
+            salaryItems.add(c);
+        }
+
+        if (salaryItems.isEmpty()) {
+            System.out.println("There is no salary items to display.");
+            return;
+        }
+
+        // Display details of each taxable item
+        System.out.println("Salary Items:");
+        for (PayableStaff item : salaryItems) {
+            System.out.format("Monthly Salary: $%.2f", item.calculateMonthlySalary());
+            System.out.println("----------------------");
+        }
     }
 }

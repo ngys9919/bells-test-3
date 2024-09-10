@@ -41,7 +41,7 @@ class FullTimeEmployee extends Employee {
     public String formattedReport() {
         String str = super.formattedReport();
 //        return String.format(str + "\tType of Employee: %s \tNett Monthly Salary: $%.2f", employeeCategory(), calculateMonthlySalary());
-        return String.format(str + "\t%17s \t\t\t$%.2f", employeeCategory(), calculateMonthlySalary());
+        return String.format(str + "\t%13s\t$%.2f", employeeCategory(), calculateMonthlySalary());
     }
 
     @Override
@@ -61,7 +61,7 @@ class FullTimeEmployee extends Employee {
         System.out.println("Type of Employee: " + employeeCategory());
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter basic monthly salary: ");
+        System.out.print("Enter new basic monthly salary: ");
         double newSalary = sc.nextDouble();
         this.baseMonthlySalary = newSalary;
     }
