@@ -67,11 +67,9 @@ public abstract class Employee implements PayablePerson {
         this.employeeID = newID;
 
         System.out.print("Enter name of the new employee: ");
-        String newName = sc.nextLine();
-        this.nameOfEmployee = newName;
+        this.nameOfEmployee = sc.nextLine();
 
         System.out.print("Enter job title of the new employee: ");
-        String newDesignation = sc.nextLine();
-        this.employeeDesignation = newDesignation;
+        this.employeeDesignation = sc.nextLine();
     }
 }

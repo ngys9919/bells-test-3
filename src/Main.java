@@ -119,7 +119,7 @@ public class Main {
             System.out.println(strHeader2);
             System.out.println("=======================================");
             for (Contractor c : contractList) {
-                System.out.format("Employee ID: %d Contractual Duration: %d Nett Monthly Salary: $%.2f\n", c.getEmployeeID(), c.getDurationOfContract(), c.getBasicMonthlySalary());
+                System.out.format("Employee ID: %d Contract Duration: %d days Nett Monthly Salary: $%.2f\n", c.getEmployeeID(), c.getDurationOfContract(), c.getBasicMonthlySalary());
             }
         }
     }
@@ -204,10 +204,13 @@ public class Main {
 
         // 2. base on the selection, we will ask the questions for
         // the new values for the employee
-        Employee staffToEdit = staffList.get(staffIndex);
-        staffToEdit.edit();
-
-        System.out.println("Employee successfully edited!");
+        if (staffIndex >= 0 && staffIndex < staffList.size()) {
+            Employee staffToEdit = staffList.get(staffIndex);
+            staffToEdit.edit();
+            System.out.println("Employee successfully edited!");
+        } else {
+            System.out.println("Invalid index.");
+        }
     }
 
     public static void removeEmployee(ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
@@ -229,10 +232,13 @@ public class Main {
 
         // 2. base on the selection, we will delete
         // the record for the employee
-        Employee employeeToRemove = staffList.remove(employeeIndex) ;
-        //employeeToRemove.delete();
-        System.out.println("Employee successfully deleted!");
-        displayAllEmployees(staffList, contractList);
+        if (employeeIndex >= 0 && employeeIndex < staffList.size()) {
+            staffList.remove(employeeIndex);
+            System.out.println("Employee successfully deleted!");
+            displayAllEmployees(staffList, contractList);
+        } else {
+            System.out.println("Invalid index.");
+        }
     }
 
     private static void addNewContractEmployee(ArrayList<Contractor> contractList) {
