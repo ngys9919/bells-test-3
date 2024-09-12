@@ -146,7 +146,7 @@ public abstract class Employee implements PayablePerson {
         }
 
         if ((newName_isAlphabet) && (!newName.isEmpty())) {
-            Employee.nameOfEmployee = newName;
+            this.nameOfEmployee = newName;
         } else {
             if (newName.isEmpty()) {
                 throw new NullPointerException("Employee name must not be empty string!");
