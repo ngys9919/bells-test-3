@@ -22,6 +22,7 @@
 // - ArrayList<PayablePerson>: represents the payable database
 // - PayablePerson interface: represents the salaried persons for full-time/part-time/contract
 
+
 import java.util.ArrayList;
 //import java.util.List;
 import java.util.Scanner;
@@ -151,35 +152,49 @@ public class Main {
             return;
         }
 
+        Employee ft = new FullTimeEmployee();
+        Employee pt = new PartTimeEmployee();
+
         // ask the user to enter details for parent Employee class
-        System.out.print("Enter ID of the new employee: ");
-        int employeeID = sc.nextInt();
-        sc.nextLine(); // consume the buffered new line
+        System.out.print("Enter ID (between 1 and 4 digits) of the new employee: ");
+        String employeeID = sc.nextLine();
+        employeeID = employeeID.trim();
+        ft.validateEmployeeID(employeeID);
 
-        System.out.print("Enter name of the new employee: ");
+        System.out.print("Enter name (alphabets, whitespace only, max 25 letters) of the new employee: ");
         String nameOfEmployee = sc.nextLine();
+        nameOfEmployee = nameOfEmployee.trim();
+        ft.validateNameOfEmployee(nameOfEmployee);
 
-        System.out.print("Enter job title of the new employee: ");
+        System.out.print("Enter job title (alphanumeric, whitespace only, max 25 characters) of the new employee: ");
         String employeeDesignation = sc.nextLine();
+        employeeDesignation = employeeDesignation.trim();
+        ft.validateEmployeeDesignation(employeeDesignation);
 
         // create a placeholder and set it to empty
         Employee newEmployee = null;
 
         if (employeeType.equalsIgnoreCase("F")) {
             // ask the user for information pertaining to the FullTimeEmployee
-            System.out.print("Enter basic monthly salary: ");
-            double baseMonthlySalary = sc.nextDouble();
+            System.out.print("Enter basic monthly salary (up to 2 decimal places): ");
+            String baseMonthlySalary = sc.nextLine();
+            baseMonthlySalary = baseMonthlySalary.trim();
+            ft.validateBaseMonthlySalary(baseMonthlySalary);
 
-            newEmployee = new FullTimeEmployee(employeeID, nameOfEmployee, employeeDesignation, baseMonthlySalary);
+            newEmployee = new FullTimeEmployee(Integer.parseInt(employeeID), nameOfEmployee, employeeDesignation, Double.parseDouble(baseMonthlySalary));
         } else if (employeeType.equalsIgnoreCase("P")) {
             // ask the user for the information needed to create PartTimeEmployee
-            System.out.print("Enter number of hours worked: ");
-            int numberOfHoursWorked = sc.nextInt();
+            System.out.print("Enter number of hours worked (whole numbers): ");
+            String numberOfHoursWorked = sc.nextLine();
+            numberOfHoursWorked = numberOfHoursWorked.trim();
+            pt.validateNumberOfHoursWorked(numberOfHoursWorked);
 
-            System.out.print("Enter basic hourly rate: ");
-            double baseHourlyRate = sc.nextDouble();
+            System.out.print("Enter basic hourly rate (up to 2 decimal places): ");
+            String baseHourlyRate = sc.nextLine();
+            baseHourlyRate = baseHourlyRate.trim();
+            pt.validateBaseHourlyRate(baseHourlyRate);
 
-            newEmployee = new PartTimeEmployee(employeeID, nameOfEmployee, employeeDesignation, numberOfHoursWorked, baseHourlyRate);
+            newEmployee = new PartTimeEmployee(Integer.parseInt(employeeID), nameOfEmployee, employeeDesignation, Integer.parseInt(numberOfHoursWorked), Double.parseDouble(baseHourlyRate));
 
         }
         staffList.add(newEmployee);
@@ -286,4 +301,6 @@ public class Main {
             System.out.format("Employee ID: %d Nett Monthly Salary: $%.2f\n", item.getEmployeeID(), item.calculateMonthlySalary());
         }
     }
+
+
 }

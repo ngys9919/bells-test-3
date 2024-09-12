@@ -69,9 +69,19 @@ class PartTimeEmployee extends Employee {
         System.out.println("Type of Employee: " + employeeCategory());
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter new number of hours (whole numbers) worked: ");
+        System.out.print("Enter new number of hours worked (whole numbers): ");
         String newHours = sc.nextLine();
         newHours = newHours.trim();
+        validateNumberOfHoursWorked(newHours);
+
+        System.out.print("Enter new basic hourly rate (up to 2 decimal places): ");
+        String newRate = sc.nextLine();
+        newRate = newRate.trim();
+        validateBaseHourlyRate(newRate);
+    }
+
+    @Override
+    public void validateNumberOfHoursWorked(String newHours) {
         //regular expression to check if the input is a whole number
         //Pattern.matches("\\d+", newHours) is true for any numeric inputs that is at least 1 digit or more
         //newHours_isInteger = Pattern.matches("\\d+", newHours)
@@ -91,10 +101,10 @@ class PartTimeEmployee extends Employee {
         } else if ((Integer.parseInt(newHours))==0) {
             throw new NumberFormatException("Number of hours worked must not be 0!");
         }
+    }
 
-        System.out.print("Enter new basic hourly rate (up to 2 decimal places): ");
-        String newRate = sc.nextLine();
-        newRate = newRate.trim();
+    @Override
+    public void validateBaseHourlyRate(String newRate) {
         //regular expression to check if the input is a whole number or float number with up to 2 decimal places
         //Pattern.matches("[0-9]*['.']?[0-9][0-9]", newRate) is true for any numeric inputs with or without decimal point (up to 2 decimal places)
         //newRate_isIntegerOrDecimal = Pattern.matches("[0-9]+[.]?|[0-9]*[.]?[0-9]|[0-9]*[.]?[0-9][0-9]", newRate)

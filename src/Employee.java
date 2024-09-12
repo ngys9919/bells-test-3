@@ -64,6 +64,20 @@ public abstract class Employee implements PayablePerson {
         System.out.print("Enter new ID (between 1 and 4 digits) of the employee: ");
         String newID = sc.nextLine();
         newID = newID.trim();
+        validateEmployeeID(newID);
+
+        System.out.print("Enter new name (alphabets, whitespace only, max 25 letters) of the employee: ");
+        String newName = sc.nextLine();
+        newName = newName.trim();
+        validateNameOfEmployee(newName);
+
+        System.out.print("Enter new job title (alphanumeric, whitespace only, max 25 characters) of the employee: ");
+        String newDesignation = sc.nextLine();
+        newDesignation = newDesignation.trim();
+        validateEmployeeDesignation(newDesignation);
+    }
+
+    public void validateEmployeeID(String newID) {
         //regular expression to check if the input is a whole number (up to 4 digits)
         //"" matches directly (character for character) in the string pattern
         //this is the simplest form of regular expression that is plain, literal text, which has no special meaning
@@ -96,55 +110,13 @@ public abstract class Employee implements PayablePerson {
         } else if ((Integer.parseInt(newID))>9999) {
             throw new NumberFormatException("Employee ID must be within 1 and 4 digits!");
         }
+    }
 
-        System.out.print("Enter new name (alphabets, whitespace only, max 25 letters) of the employee: ");
-        String newName = sc.nextLine();
-        newName = newName.trim();
-        //regular expression to check if the input is an alphabet string
-        //^ (caret) is placed as the first character inside the square brackets to invert the character class
-        //[^0-9] matches any character except those included in the square brackets, that is, it isn't a digit
-        //position characters allow you to designate the relative location of a match within a line
-        //with the most important position characters are ^ and $, which match the beginning and end of a line, respectively
-        //for example,
-        //The phrase "A rose is a rose is a rose"
-        //the pattern "[Aa] rose" matches an included upper- or lowercase A followed by the word rose
-        //it matches 3 times in the phrase
-        //the pattern "^[Aa] rose" matches an included upper- or lowercase A followed by the word rose at the beginning of line
-        //it matches "A rose" in the phrase at the beginning of line
-        //the pattern "[Aa] rose$" matches an included upper- or lowercase A followed by the word rose at end of line
-        //it matches "a rose" in the phrase at end of line
-        //the position markers \b and \B match a word boundary (whitespace, punctuation, or the beginning or end of a line),
-        //or a non-word boundary (the middle of a word), respectively.
-        //for example,
-        //the pattern "\brose"
-        //it matches "rose" and "rosemary" and "roses", but not "primrose"
-        //the pattern "\Brose"
-        //it matches "primrose" and "prose", but not "rose" or "rosemary"
-        //Pattern.matches("[^0-9]{1,25}", newName) is true for any characters except digits
-        //Pattern.matches("[A-Z[a-z]\\s]{1,25}", newName)
-        //newName_isAlphabet = Pattern.matches("[A-Za-z\\s]{1,25}", newName)
-        boolean newName_isAlphabet = Pattern.matches("[A-Za-z\\s]{1,25}", newName);
-        if (false) {
-            String s2 = Boolean.toString(newName_isAlphabet);
-            System.out.format("newName is %s\n", newName);
-            System.out.format("newName_isAlphabet is %s\n", s2);
-            String s = Boolean.toString(newName.isEmpty());
-            System.out.format("newName.isEmpty is %s\n", s);
-        }
+    public void validateNameOfEmployee(String newName) {
 
-        if ((newName_isAlphabet) && (!newName.isEmpty())) {
-            this.nameOfEmployee = newName;
-        } else {
-            if (newName.isEmpty()) {
-                throw new NullPointerException("Employee name must not be empty string!");
-            } else { //if (!newName_isAlphabet) {
-                throw new NumberFormatException("Employee name must be alphabets!");
-            }
-        }
+    }
 
-        System.out.print("Enter new job title (alphanumeric, whitespace only, max 25 characters) of the employee: ");
-        String newDesignation = sc.nextLine();
-        newDesignation = newDesignation.trim();
+    public void validateEmployeeDesignation(String newDesignation) {
         //regular expression to check if the input is an alphanumeric string
         //\w matches characters typically found in "words",
         // such as A-Z (uppercase letters), a-z (lowercase letters), 0-9 (digits) and _ (underscore),
@@ -171,5 +143,17 @@ public abstract class Employee implements PayablePerson {
                 throw new NumberFormatException("Employee designation must be alphanumeric!");
             }
         }
+    }
+
+    //Method for FullTimeEmployee
+    public void validateBaseMonthlySalary(String baseMonthlySalary) {
+    }
+
+    //Method for PartTimeEmployee
+    public void validateNumberOfHoursWorked(String newHours) {
+    }
+
+    //Method for PartTimeEmployee
+    public void validateBaseHourlyRate(String newRate) {
     }
 }

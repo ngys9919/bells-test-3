@@ -64,6 +64,11 @@ class FullTimeEmployee extends Employee {
         System.out.print("Enter new basic monthly salary (up to 2 decimal places): ");
         String newSalary = sc.nextLine();
         newSalary = newSalary.trim();
+        validateBaseMonthlySalary(newSalary);
+    }
+
+    @Override
+    public void validateBaseMonthlySalary(String newSalary) {
         //regular expression to check if the input is a whole number or float number with up to 2 decimal places
         //. means allow any single character that matches the pattern after the dot
         //two dots matches any two characters with pattern after the dot
