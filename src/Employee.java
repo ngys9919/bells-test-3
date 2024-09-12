@@ -113,7 +113,47 @@ public abstract class Employee implements PayablePerson {
     }
 
     public void validateNameOfEmployee(String newName) {
+        //regular expression to check if the input is an alphabet string
+        //^ (caret) is placed as the first character inside the square brackets to invert the character class
+        //[^0-9] matches any character except those included in the square brackets, that is, it isn't a digit
+        //position characters allow you to designate the relative location of a match within a line
+        //with the most important position characters are ^ and $, which match the beginning and end of a line, respectively
+        //for example,
+        //The phrase "A rose is a rose is a rose"
+        //the pattern "[Aa] rose" matches an included upper- or lowercase A followed by the word rose
+        //it matches 3 times in the phrase
+        //the pattern "^[Aa] rose" matches an included upper- or lowercase A followed by the word rose at the beginning of line
+        //it matches "A rose" in the phrase at the beginning of line
+        //the pattern "[Aa] rose$" matches an included upper- or lowercase A followed by the word rose at end of line
+        //it matches "a rose" in the phrase at end of line
+        //the position markers \b and \B match a word boundary (whitespace, punctuation, or the beginning or end of a line),
+        //or a non-word boundary (the middle of a word), respectively.
+        //for example,
+        //the pattern "\brose"
+        //it matches "rose" and "rosemary" and "roses", but not "primrose"
+        //the pattern "\Brose"
+        //it matches "primrose" and "prose", but not "rose" or "rosemary"
+        //Pattern.matches("[^0-9]{1,25}", newName) is true for any characters except digits
+        //Pattern.matches("[A-Z[a-z]\\s]{1,25}", newName)
+        //newName_isAlphabet = Pattern.matches("[A-Za-z\\s]{1,25}", newName)
+        boolean newName_isAlphabet = Pattern.matches("[A-Za-z\\s]{1,25}", newName);
+        if (false) {
+            String s2 = Boolean.toString(newName_isAlphabet);
+            System.out.format("newName is %s\n", newName);
+            System.out.format("newName_isAlphabet is %s\n", s2);
+            String s = Boolean.toString(newName.isEmpty());
+            System.out.format("newName.isEmpty is %s\n", s);
+        }
 
+        if ((newName_isAlphabet) && (!newName.isEmpty())) {
+            Employee.nameOfEmployee = newName;
+        } else {
+            if (newName.isEmpty()) {
+                throw new NullPointerException("Employee name must not be empty string!");
+            } else { //if (!newName_isAlphabet) {
+                throw new NumberFormatException("Employee name must be alphabets!");
+            }
+        }
     }
 
     public void validateEmployeeDesignation(String newDesignation) {
