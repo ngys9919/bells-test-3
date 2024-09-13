@@ -15,7 +15,7 @@ Module 5: **Java Programming for Developers**
 <!-- Heading level 3 -->
 ### Project File Structure:
 
-* Java Files ()
+* Java Files
 
 >>> Staff Management System  (Menu Page)
 : Main.class
@@ -29,8 +29,8 @@ Module 5: **Java Programming for Developers**
 : PayablePerson.java
 
 * IMG Folder (images)
-: index-1.png
-: index-2.png
+: sms-menu.png
+: sms-staff-list-summary.png
 
 
 <!-- Heading level 1 -->
@@ -50,15 +50,15 @@ R = Read: get existing information
 U = Update: update existing information in the database   
 D = Delete: remove existing information from the database
 
-Using ArrayList to store our database
+Using List/ArrayList to store our database:
 
-- ArrayList<Employee>: represents the entire staff database\
+- List<Employee>: represents the entire staff database\
 Employee abstract class: represents the parent of staff employees\
 FullTimeEmployee class: represents the child of full-time employees\
 PartTimeEmployee class: represents the child of part-time employees
 
 
-- ArrayList<Contractor>: represents the contractor database\
+- List<Contractor>: represents the contractor database\
 Contractor class: represents the contract workers
 
 
@@ -98,28 +98,24 @@ Contract Worker (Supplementary Info)
 3. *Duration Of Contract*
 ***
 
-This simple software is a commandline interface application for Staff Management System.\
+This simple software is a commandline interface application for Staff Management System.
+
 It provides Add new employee, List all employees and Display monthly salary functionalities for general user and\
-password-enabled features for Edit and Delete functionalities to the administrative staff.\
-It also has a Staff List Summary for the employees collection in the system with section for Employee Records for Full-time/Part-time Staff\
-and Employee Records for Contract Worker(s).
+features for Edit and Delete functionalities to the administrative staff.
 
-![Staff Management System: Menu Page](img/index-1.png "Main.class Staff Management System Menu")
+It also has a Staff List Summary for the employees collection in the system with section for Employee Records for\
+Full-time/Part-time Staff and Employee Records for Contract Worker(s).
 
-![Staff Management System: Staff List Summary](img/index-2.png "Main.class Staff List Summary")
+![Staff Management System: Menu Page](img/sms-menu.png "Main.class Staff Management System Menu")
 
-The program is deployed using [GitHub Pages][1] so that it is available via a personal computer.
+![Staff Management System: Staff List Summary](img/sms-staff-list-summary.png "Main.class Staff List Summary")
 
-<!-- Heading level 4 -->
-#### The url for the portfolio project is here:
 
-- [Staff Management System](https://ngys9919.github.io/bells-test-2/ "My project-website!")
-: Click the hyperlink <https://ngys9919.github.io/bells-test-3/>
 
 <!-- Heading level 4 -->
-#### The source codes is hosted as public on a Github repository and the link is as follows: 
+#### The source codes is hosted as public on a [GitHub] [1] repository and the link is as follows: 
 
-- [Source Codes Github Link](https://www.github.com/ngys9919/bells-test-2 "My source-codes!")
+- [Source Codes GitHub Link](https://www.github.com/ngys9919/bells-test-2 "My source-codes!")
 : Click the hyperlink <https://www.github.com/ngys9919/bells-test-3>
 
 <!-- Heading level 2 -->
@@ -143,18 +139,18 @@ The application could expand to include new inputs like personal information (sa
 <!-- Heading level 2 -->
 ## Testing
 1. Using Test-Cases\
-   3.1 Adding several employees to the database\
-   3.2 Displaying all employees\
-   3.3 Editing an employee record\
-   3.4 Trying to edit an empty database\
-   3.5 Deleting an employee record\
-   3.6 Displaying all employees again to verify the changes\
-   3.7 Test to handle potential errors, such as trying to edit or delete a non-existent employee\
-   3.8 Test for input validation to ensure that Employee IDs are unique and in the correct integer data type    
+   1.1 Adding several employees to the database\
+   1.2 Displaying all employees\
+   1.3 Editing an employee record\
+   1.4 Trying to edit an empty database\
+   1.5 Deleting an employee record\
+   1.6 Displaying all employees again to verify the changes\
+   1.7 Test to handle potential errors, such as trying to edit or delete a non-existent employee\
+   1.8 Test for input validation to ensure that Employee IDs are unique and in the correct integer data type   
 
 2. Actual Usage   
-   4.1 The app is run in real use-case for laptop (Acer notebook) via Integrated Development Environment (IDE).   
-   4.2 The app is run in real use-cases ().
+   2.1 The app is run in real use-case for laptop (Acer notebook) via Integrated Development Environment (IDE).   
+
 
 <!-- Heading level 2 -->
 ## Credits
