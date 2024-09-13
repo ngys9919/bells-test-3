@@ -24,14 +24,14 @@
 
 
 import java.util.ArrayList;
-//import java.util.List;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
+    public static List<Employee> staffList = new ArrayList<>();
+    public static List<Contractor> contractList = new ArrayList<>();
 
-        ArrayList<Employee> staffList = new ArrayList<>();
-        ArrayList<Contractor> contractList = new ArrayList<>();
+    public static void main(String[] args) {
 
         while (true) {
             displayMenu();
@@ -73,7 +73,7 @@ public class Main {
     // depending on the user has entered at the menu, do something
     // if return true, keep running the program
     // if return false, quit the program
-    public static boolean processChoice(int choice, ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
+    public static boolean processChoice(int choice, List<Employee> staffList, List<Contractor> contractList) {
         if (choice == 1) {
             displayAllEmployees(staffList, contractList);
         } else if (choice == 2) {
@@ -91,7 +91,7 @@ public class Main {
         return true;
     }
 
-    public static void displayAllEmployees(ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
+    public static void displayAllEmployees(List<Employee> staffList, List<Contractor> contractList) {
         System.out.println("===== Staff List Summary =====");
         System.out.println();
         if (staffList.isEmpty() && contractList.isEmpty()) {
@@ -109,7 +109,8 @@ public class Main {
             String strHeader = "Employee Records for Full-time/Part-time Staff";
             System.out.println(strHeader);
             System.out.println("==============================================");
-            String strTableHeader = "Employee ID\tEmployee Name\tJob Designation\tEmployee Type\tNett Monthly Salary";
+//            String strTableHeader = "Employee ID\tEmployee Name\tJob Designation\tEmployee Type\tNett Monthly Salary";
+            String strTableHeader = "Employee ID\tEmployee Name            \tJob Designation          \tEmployee Type\tNett Monthly Salary";
             System.out.println(strTableHeader);
             for (Employee e : staffList) {
                 System.out.println(e.formattedReport());
@@ -127,7 +128,7 @@ public class Main {
         }
     }
 
-    public static void addNewEmployee(ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
+    public static void addNewEmployee(List<Employee> staffList, List<Contractor> contractList) {
         System.out.println("===== Add New Employee =====");
         System.out.println();
         System.out.println("Enter employee type to create: ");
@@ -159,7 +160,21 @@ public class Main {
         System.out.print("Enter ID (between 1 and 4 digits) of the new employee: ");
         String employeeID = sc.nextLine();
         employeeID = employeeID.trim();
-        ft.validateEmployeeID(employeeID);
+        boolean valid_employeeID = ft.validateEmployeeID(employeeID);
+        //if employeeID is a valid input, then verify for uniqueness
+        boolean unique_employeeID = verifyEmployeeID(employeeID);
+        while ((valid_employeeID) && (!((staffList.isEmpty()) && (contractList.isEmpty())) && !(unique_employeeID))) {
+            //if employeeID exists, then request for re-entry
+            System.out.println();
+            System.out.println("Please re-enter a unique Employee ID.");
+            System.out.println();
+            System.out.print("Enter new ID (between 1 and 4 digits) of the employee: ");
+            employeeID = sc.nextLine();
+            employeeID = employeeID.trim();
+            valid_employeeID = ft.validateEmployeeID(employeeID);
+            unique_employeeID = verifyEmployeeID(employeeID);
+        }
+        ft.setEmployeeID(Integer.parseInt(employeeID));
 
         System.out.print("Enter name (alphabets, whitespace only, max 25 letters) of the new employee: ");
         String nameOfEmployee = sc.nextLine();
@@ -202,7 +217,7 @@ public class Main {
     }
 
 
-    public static void editEmployee(ArrayList<Employee> staffList) {
+    public static void editEmployee(List<Employee> staffList) {
         System.out.println("===== Edit Existing Employee =====");
         System.out.println();
         if (staffList.isEmpty()) {
@@ -230,7 +245,7 @@ public class Main {
         }
     }
 
-    public static void removeEmployee(ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
+    public static void removeEmployee(List<Employee> staffList, List<Contractor> contractList) {
         System.out.println("===== Remove Employee Record =====");
         System.out.println();
         if (staffList.isEmpty()) {
@@ -258,13 +273,25 @@ public class Main {
         }
     }
 
-    private static void addNewContractEmployee(ArrayList<Contractor> contractList) {
+    public static void addNewContractEmployee(List<Contractor> contractList) {
         // create a placeholder and set it to empty
         Contractor newContractEmployee = null;
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter ID of the contract worker: ");
+        System.out.print("Enter Employee ID of the contract worker: ");
         int employeeID = sc.nextInt();
+        String employeeID_String = Integer.toString(employeeID);
+        boolean unique_employeeID = verifyEmployeeID(employeeID_String);
+
+        while (!((staffList.isEmpty()) && (contractList.isEmpty())) && !(unique_employeeID)) {
+            System.out.println();
+            System.out.println("Please re-enter a unique Employee ID.");
+            System.out.println();
+            System.out.print("Enter Employee ID of the contract worker: ");
+            employeeID = sc.nextInt();
+            employeeID_String = Integer.toString(employeeID);
+            unique_employeeID = verifyEmployeeID(employeeID_String);
+        }
         System.out.print("Enter basic monthly salary: ");
         double basicMonthlySalary = sc.nextDouble();
         System.out.print("Enter contractual period (in days): ");
@@ -276,18 +303,14 @@ public class Main {
         System.out.println("New contract worker successfully added!");
     }
 
-    private static void displaySalaryItems(ArrayList<Employee> staffList, ArrayList<Contractor> contractList) {
+    public static void displaySalaryItems(List<Employee> staffList, List<Contractor> contractList) {
         ArrayList<PayablePerson> salaryItems = new ArrayList<>();
 
         // Add all Employee instances to the salaryItems list
-        for (Employee e : staffList) {
-            salaryItems.add(e);
-        }
+        salaryItems.addAll(staffList);
 
         // Add all Contractor instances to the salaryItems list
-        for (Contractor c : contractList) {
-            salaryItems.add(c);
-        }
+        salaryItems.addAll(contractList);
 
         if (salaryItems.isEmpty()) {
             System.out.println("There is no salary items to display.");
@@ -302,5 +325,63 @@ public class Main {
         }
     }
 
+    public static boolean verifyEmployeeID(String verifyingID) {
+        boolean uniqueID = false;
+        int i = Integer.parseInt(verifyingID);
+        //System.out.println("verifyingID: " + verifyingID);
 
+        if ((staffList.isEmpty()) && (contractList.isEmpty())) {
+            System.out.println("Database is empty!");
+            uniqueID = true;
+            System.out.println("Employee ID is unique!");
+            System.out.println();
+            return (uniqueID);
+        }
+
+        //Do check only-if staffList is not empty
+        if (!(staffList.isEmpty())) {
+            // Verify the Employee ID is unique inside Employee database
+            for (Employee e : staffList) {
+                //System.out.println("staffList: " + e.getEmployeeID());
+                if (e.getEmployeeID() != i) {
+                    uniqueID = true;
+                } else {
+                    uniqueID = false;
+                    System.out.println("Employee ID is found in employee database!");
+                    break;
+                }
+            }
+        } else {
+            //Employee database is empty, Employee ID is unique
+            uniqueID = true;
+        }
+
+
+        // Check only if Employee ID is not found in Employee database
+        // Verify the Employee ID is unique inside Contractor database
+        if (uniqueID) {
+            //Do check only-if contractList is not empty
+            if (!(contractList.isEmpty())) {
+                for (Contractor c : contractList) {
+                    //System.out.println("contractList: " + c.getEmployeeID());
+                    if ((c.getEmployeeID()) != i) {
+                        uniqueID = true;
+                    } else {
+                        uniqueID = false;
+                        System.out.println("Employee ID is found in contractor database!");
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (uniqueID) {
+            System.out.println("Employee ID is unique!");
+            System.out.println();
+        } //else {
+            //System.out.println("Employee ID exists!");
+        //}
+        //System.out.println("uniqueID: " + uniqueID);
+        return (uniqueID);
+    }
 }

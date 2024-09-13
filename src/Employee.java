@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -49,7 +51,8 @@ public abstract class Employee implements PayablePerson {
     }
 
     public String formattedReport() {
-        return String.format("%11d\t%-13s\t%-15s", employeeID, nameOfEmployee, employeeDesignation);
+//        return String.format("%11d\t%-13s\t%-15s", employeeID, nameOfEmployee, employeeDesignation);
+        return String.format("%11d\t%-25s\t%-25s", employeeID, nameOfEmployee, employeeDesignation);
     }
 
     public String report() {
@@ -64,8 +67,63 @@ public abstract class Employee implements PayablePerson {
         System.out.print("Enter new ID (between 1 and 4 digits) of the employee: ");
         String newID = sc.nextLine();
         newID = newID.trim();
-        validateEmployeeID(newID);
+        boolean valid_NewID = validateEmployeeID(newID);
+        String answerType = "N";
+        boolean unique_employeeID = false;
+        while ((valid_NewID) && (answerType.equalsIgnoreCase("N")) && !(unique_employeeID)) {
+            //First Validation: check for same input as existing record
+            if (Integer.parseInt(newID) == getEmployeeID()) {
+                //newID is a valid input and same as existing Employee ID
+                System.out.println();
+                System.out.println("Employee ID remains the same?");
+                System.out.println("Y for Yes or N for No");
+                answerType = sc.nextLine();
+                while (!answerType.equalsIgnoreCase("Y")
+                        && !answerType.equalsIgnoreCase("N")) {
+                    System.out.println("Invalid answer. Please try again.");
+                    System.out.println();
+                    System.out.println("Employee ID remains the same?");
+                    System.out.println("Y for Yes or N for No");
+                    answerType = sc.nextLine();
+                }
+                if (answerType.equalsIgnoreCase("N")) {
+                    //if answerType is N (change Employee ID), then proceed the next step for newID input
+                    System.out.println("Please enter a unique Employee ID.");
+                    System.out.println();
+                    System.out.print("Enter new ID (between 1 and 4 digits) of the employee: ");
+                    newID = sc.nextLine();
+                    newID = newID.trim();
+                    valid_NewID = validateEmployeeID(newID);
+                    //unique_employeeID = Main.verifyEmployeeID(newID);
+                } else {
+                    //if answerType is Y (Employee ID remains), then proceed the next step for newName input
+                    unique_employeeID = true;
+                }
+            } else {
+                //newID is a valid input and different Employee ID is entered
+                //Proceed to verification of Employee ID for uniqueness
+                unique_employeeID = Main.verifyEmployeeID(newID);
+                //Break from the while loop for different newID
+                if (unique_employeeID) {
+                    answerType = "Y";
+                } else {
+                    //Employee ID exists in database
+                    //Proceed to the next step for newID input
+                    System.out.println();
+                    System.out.println("Please enter a unique Employee ID.");
+                    System.out.println();
+                    System.out.print("Enter new ID (between 1 and 4 digits) of the employee: ");
+                    newID = sc.nextLine();
+                    newID = newID.trim();
+                    valid_NewID = validateEmployeeID(newID);
+                    //unique_employeeID = Main.verifyEmployeeID(newID);
+                }
+            }
+        }
+        this.employeeID = Integer.parseInt(newID);
 
+        //if answerType is Y, then continue with the next step for newName input
+        //Or the answerType is N, but user enter unique Employee ID with another newID input
         System.out.print("Enter new name (alphabets, whitespace only, max 25 letters) of the employee: ");
         String newName = sc.nextLine();
         newName = newName.trim();
@@ -77,7 +135,9 @@ public abstract class Employee implements PayablePerson {
         validateEmployeeDesignation(newDesignation);
     }
 
-    public void validateEmployeeID(String newID) {
+
+
+    public boolean validateEmployeeID(String newID) {
         //regular expression to check if the input is a whole number (up to 4 digits)
         //"" matches directly (character for character) in the string pattern
         //this is the simplest form of regular expression that is plain, literal text, which has no special meaning
@@ -92,6 +152,7 @@ public abstract class Employee implements PayablePerson {
         //{1,4} matches digits with 1, 2, 3, or 4 digits length
         //Pattern.matches("\\d{1,4}", newID) is true for any numeric inputs that are between 1 and 4 digits
         //newID_isInteger = Pattern.matches("\\d{1,4}", newID)
+        boolean valid_NewID = false;
         boolean newID_isInteger = Pattern.matches("\\d{1,4}", newID);
         if (false) {
             String s1 = Boolean.toString(newID_isInteger);
@@ -100,7 +161,9 @@ public abstract class Employee implements PayablePerson {
         }
 
         if ((newID_isInteger) && ((Integer.parseInt(newID))!=0) && (!newID.isEmpty())) {
-            this.employeeID = Integer.parseInt(newID);
+                //this.employeeID = Integer.parseInt(newID);
+                //newID is a valid input, then verify for uniqueness
+                valid_NewID = true;
         } else if (newID.isEmpty()) {
             throw new NullPointerException("Employee ID must not be null!");
         } else if ((!newID_isInteger) && ((Integer.parseInt(newID))<=9999)) {
@@ -110,6 +173,7 @@ public abstract class Employee implements PayablePerson {
         } else if ((Integer.parseInt(newID))>9999) {
             throw new NumberFormatException("Employee ID must be within 1 and 4 digits!");
         }
+        return valid_NewID;
     }
 
     public void validateNameOfEmployee(String newName) {

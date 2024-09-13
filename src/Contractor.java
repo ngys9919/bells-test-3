@@ -1,4 +1,4 @@
-class Contractor implements PayablePerson {
+public class Contractor implements PayablePerson {
 //class Contractor {
     private int employeeID;
     private double basicMonthlySalary;
