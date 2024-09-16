@@ -10,13 +10,13 @@
 
 //
 
-// Using ArrayList to store our database
-// - ArrayList<Employee>: represents the entire staff database
+// Using List/ArrayList to store our database
+// - List<Employee>: represents the entire staff database
 // - Employee abstract class: represents the parent of staff employees
 // -- FullTimeEmployee class: represents the child of full-time employees
 // -- PartTimeEmployee class: represents the child of part-time employees
 
-// - ArrayList<Contractor>: represents the contractor database
+// - List<Contractor>: represents the contractor database
 // - Contractor class: represents the contract workers
 
 // - ArrayList<PayablePerson>: represents the payable database
